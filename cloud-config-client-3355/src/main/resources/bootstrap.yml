@@ -1,0 +1,39 @@
+server:
+  port: 3355
+
+
+spring:
+  application:
+    name: cloud-config-client
+  cloud:
+    #客户端配置
+    config:
+      label: master #读取分支cf-test.yml
+      name: cf #配置文件名称
+      profile: test #读取后缀名称 综合就是找 master分支上面的cf-test.yml的文件
+      uri: http://localhost:3344
+
+  rabbitmq:
+    host: localhost
+    port: 5672 #15762是web端界面端口 5672是MQ端口
+    username: guest
+    password: guest
+
+eureka:
+  client:
+  #表示是否将自己注册进eurekaServer 默认为true
+    register-with-eureka: true
+    #是否从eurekaServer抓取已有的注册信息 默认为true，单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+#    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+#      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+
+
+#暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
